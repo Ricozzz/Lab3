@@ -47,9 +47,9 @@ int location = 0;
 
 int paddle_v = 1;
 
-void setup_ADC()
+void setup_ADC()       //set up adc
 {
-	ADMUX = (1 << REFS0);//比较电压5v
+	ADMUX = (1 << REFS0);//compare voltage 5v
 	ADCSRA = (1 << ADEN) | ( 1 << ADATE) | (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);//
 	//DIDR0 = (1 << ADC0D); //默认0     ADC prescalar 128
 	//DIDR0 = (1 << ADC3D);
@@ -58,7 +58,7 @@ void setup_ADC()
 	ADCSRB = (1 << ADTS2) | (1 << ADTS1);
 }
 
-uint16_t adc_read(uint16_t ch)
+uint16_t adc_read(uint16_t ch)     //read from different Port C as analog input
 {
 	ch |= 0x00;
 	ADMUX = (ADMUX & 0xF8) | ch;
@@ -67,7 +67,7 @@ uint16_t adc_read(uint16_t ch)
 	return(ADC);
 }
 
-int get_X_Coordinate()
+int get_X_Coordinate()    //get x coord from touch screen
 {
 	DDRC = 0x00;
 	PORTC = 0x00;
@@ -76,7 +76,7 @@ int get_X_Coordinate()
 	
 }
 
-int get_Y_Coordinate()
+int get_Y_Coordinate()      //get y coord from touch screen
 {
 	DDRC = 0x00;
 	PORTC = 0x00;
@@ -85,7 +85,7 @@ int get_Y_Coordinate()
 	
 }
 
-int test_input()
+int test_input()     //check whether there is a input from touchscreen
 {
 	l = 0;
 	DDRC = 0x00;
@@ -94,7 +94,7 @@ int test_input()
 	PORTC |= (1 << PORTC3) | (1 << PORTC0);
 	
 	//printf("%d\n",adc_read(0));
-	xx = adc_read(0);
+	xx = adc_read(0);   // save the x value(may be random)
 	
 	
 	DDRC = 0x00;
@@ -104,9 +104,9 @@ int test_input()
 	
 	//printf("%d\n",adc_read(3));
 	_delay_ms(100);
-	yy = adc_read(3);
+	yy = adc_read(3);    //save the y value
 	
-	if ((xx < 1000) & (yy < 1000))
+	if ((xx < 1000) & (yy < 1000))  //omit the random value
 	{
 		l = 1;
 		xx = (xx-175)/6.218+8;
@@ -114,10 +114,10 @@ int test_input()
 	}
 } 
 
-void ballMove()
+void ballMove()      //player vs player ball mode and the paddle move
 {
 	//srand((unsigned int)time(NULL));
-	k = TCNT1 %5 -2;
+	k = TCNT1 %5 -2;                    //generate the random k as the ball move direction
 	printf("%d\n",k);
 	if (k == 0)
 	{
@@ -141,7 +141,7 @@ void ballMove()
 		test_input();
 		x1 = xx;
 		y1 = yy;
-	    if ((l == 1 )& (x1<63) )//左边
+	    if ((l == 1 )& (x1<63) )//left side
 	    {
 			    if (y1 < leftPaddleY+4)
 			    {
@@ -162,7 +162,7 @@ void ballMove()
 			    fillrect(buff,2,leftPaddleY,1,8,BLACK);
 				fillrect(buff,124,rightPaddleY,1,8,BLACK);
 		}
-	     if ((l == 1 ) & (x1>63) )//右边
+	     if ((l == 1 ) & (x1>63) )//reght side
 		{
 				if (y1 <rightPaddleY+4)
 				{
@@ -192,11 +192,11 @@ void ballMove()
 	
 		
 		
-		if (flag ==1)//判断运动方向 右移
+		if (flag ==1)//judge the moving direction
 		{
 			xxx+=1;
 			
-			if ((xxx+4>=124)&(yyy>=rightPaddleY-1)&(yyy<= rightPaddleY + 11))//碰到了右边的paddle
+			if ((xxx+4>=124)&(yyy>=rightPaddleY-1)&(yyy<= rightPaddleY + 11))//touch the right paddle
 			{
 				flag = 0;
 				//voice();
@@ -209,7 +209,7 @@ void ballMove()
 	
 	
 		}
-		if (flag == 0)  //left move 左移
+		if (flag == 0)  //left move 
 		{
 			xxx-=1;
 			
@@ -227,8 +227,8 @@ void ballMove()
 			}
 		}
 		
-	    write_buffer(buff);
-		if (yyy-4 <= 0)
+	    write_buffer(buff); 
+		if (yyy-4 <= 0)    //touch 
 		{
 			k = - k;
 			
@@ -252,7 +252,7 @@ void ballMove()
 	
 }
 
-void ballMove_AI()
+void ballMove_AI()   // player vs computer, computer never lose
 {
 	//srand((unsigned int)time(NULL));
 	k = TCNT1 %5 -2;
@@ -379,7 +379,7 @@ void ballMove_AI()
 		
 
 
-void ballMove_G()
+void ballMove_G()    //computer vs player, gravity
 {
 	//srand((unsigned int)time(NULL));
 	k = TCNT1 %5 -2;
@@ -521,7 +521,7 @@ int interphase(void)         //every time display the full screen
 	//fillrect(buff,123,26,2,10,BLACK);   //init_batch
 }
 
-void judgemode()
+void judgemode()        //judge which mode to go
 {
 	
 	char line1[]="1 V 1";
@@ -628,7 +628,7 @@ void voice()
 	PORTB &= ~(1 << PORTB1);
 }
 
-void flash()//int j???
+void flash() //generate voice and flash
 {
 	int j;
 	PORTB |= (1 << PORTB1);    //make some noise
