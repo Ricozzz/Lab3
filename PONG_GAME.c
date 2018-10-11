@@ -49,9 +49,9 @@ int paddle_v = 1;
 
 void setup_ADC()
 {
-	ADMUX = (1 << REFS0);//±È½ÏµçÑ¹5v
+	ADMUX = (1 << REFS0);//æ¯”è¾ƒç”µå‹5v
 	ADCSRA = (1 << ADEN) | ( 1 << ADATE) | (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);//
-	//DIDR0 = (1 << ADC0D); //Ä¬ÈÏ0     ADC prescalar 128
+	//DIDR0 = (1 << ADC0D); //é»˜è®¤0     ADC prescalar 128
 	//DIDR0 = (1 << ADC3D);
 	//ADMUX = (1 << MUX1) | (1 << MUX0);
 	
@@ -141,7 +141,7 @@ void ballMove()
 		test_input();
 		x1 = xx;
 		y1 = yy;
-	    if ((l == 1 )& (x1<63) )//×ó±ß
+	    if ((l == 1 )& (x1<63) )//å·¦è¾¹
 	    {
 			    if (y1 < leftPaddleY+4)
 			    {
@@ -162,7 +162,7 @@ void ballMove()
 			    fillrect(buff,2,leftPaddleY,1,8,BLACK);
 				fillrect(buff,124,rightPaddleY,1,8,BLACK);
 		}
-	     if ((l == 1 ) & (x1>63) )//ÓÒ±ß
+	     if ((l == 1 ) & (x1>63) )//å³è¾¹
 		{
 				if (y1 <rightPaddleY+4)
 				{
@@ -192,11 +192,11 @@ void ballMove()
 	
 		
 		
-		if (flag ==1)//ÅĞ¶ÏÔË¶¯·½Ïò ÓÒÒÆ
+		if (flag ==1)//åˆ¤æ–­è¿åŠ¨æ–¹å‘ å³ç§»
 		{
 			xxx+=1;
 			
-			if ((xxx+4>=124)&(yyy>=rightPaddleY-1)&(yyy<= rightPaddleY + 11))//Åöµ½ÁËÓÒ±ßµÄpaddle
+			if ((xxx+4>=124)&(yyy>=rightPaddleY-1)&(yyy<= rightPaddleY + 11))//ç¢°åˆ°äº†å³è¾¹çš„paddle
 			{
 				flag = 0;
 				//voice();
@@ -209,7 +209,7 @@ void ballMove()
 	
 	
 		}
-		if (flag == 0)  //left move ×óÒÆ
+		if (flag == 0)  //left move å·¦ç§»
 		{
 			xxx-=1;
 			
@@ -308,7 +308,7 @@ void ballMove_AI()
 		}
 		
 		
-		if (flag ==1)//ÅĞ¶ÏÔË¶¯·½Ïò ÓÒÒÆ
+		if (flag ==1)//åˆ¤æ–­è¿åŠ¨æ–¹å‘ å³ç§»
 		{
 			xxx+=1;
 			
@@ -320,7 +320,7 @@ void ballMove_AI()
 				//voice();
 			}
 		}
-		if (flag == 0)  //left move ×óÒÆ
+		if (flag == 0)  //left move å·¦ç§»
 		{
 			xxx-=1;
 			
@@ -413,7 +413,7 @@ void ballMove_G()
 		_delay_ms(100);
 		location = adc_read(4);
 		printf("%d\n",location);
-		//¸Ä³ÉÄ£ÄâÁ¿±ä»¯
+		//æ”¹æˆæ¨¡æ‹Ÿé‡å˜åŒ–
 
 		if (l == 1)
 		{
@@ -449,7 +449,7 @@ void ballMove_G()
 			//voice();
 		}
 		
-		if (flag ==1)//ÅĞ¶ÏÔË¶¯·½Ïò ÓÒÒÆ
+		if (flag ==1)//åˆ¤æ–­è¿åŠ¨æ–¹å‘ å³ç§»
 		{
 			xxx+=1;
 			
@@ -461,7 +461,7 @@ void ballMove_G()
 				//voice();
 			}
 		}
-		if (flag == 0)  //left move ×óÒÆ
+		if (flag == 0)  //left move å·¦ç§»
 		{
 			xxx-=1;
 			
@@ -708,8 +708,7 @@ int main(void)
 			
 			judgemode();
 		}
-		
-		
+	
 		//_delay_ms(2500);
 		
 		write_buffer(buff);
@@ -717,29 +716,3 @@ int main(void)
 		displayChar++;
 	}
 }
-
-
-/*
-drawcircle(buff,20,40,10,BLACK);
-fillcircle(buff,40,40,10,BLACK);
-drawstring(buff,0,0, words);
-drawline(buff,20, 20, 125, 63, BLACK);
-drawrect(buff,80,20,10,20,BLACK);
-fillrect(buff,80,40,10,20,BLACK);
-*/
-
-/*
-get_X_Coordinate();
-printf("X coordinate: ");
-printf("%d",adc_read(0));
-printf("\n");
-xx = adc_read(0);
-
-get_Y_Coordinate();
-printf("Y coordinate: ");
-printf("%d",adc_read(3));
-printf("\n");
-yy = adc_read(3);
-
-setpixel(buff,(xx-175)/6.218+8,64-(yy-290)/8.546+3,BLACK);
-*/
